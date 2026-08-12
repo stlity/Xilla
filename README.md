@@ -150,6 +150,22 @@ python3 -m xilla
 
 Xilla is designed for self-hosted deployment. Use the installation instructions above on your preferred VPS, VDS, container host, or local environment.
 
+## 🔄 Migrating from Heroku to Xilla
+
+Xilla includes a compatibility migration for existing Heroku installations. The migration runs automatically when Xilla starts and preserves the existing JSON or Redis-backed database data.
+
+> **Important:** Stop the old Heroku instance before starting Xilla. Do not run both instances against the same session files or `REDIS_URL` at the same time.
+
+### Recommended migration procedure
+
+1. **Stop Heroku and create a backup.** Back up the entire Heroku data root, including `config.json`, every `config-*.json` file, `*.session` and `*.session-journal` files, the `sessions/` and `loaded_modules/` directories, and `api_token.txt` if it exists. If the installation uses Redis, also create a backup of the Redis database or snapshot used by `REDIS_URL`.
+2. **Install Xilla** using the instructions above. Keep the backup until you have confirmed that the new instance starts and the account data is available.
+3. **Copy the existing data into the Xilla data root.** For a regular installation this is the Xilla project directory. For Docker, use the mounted `/data` directory. You can select the data root explicitly with `--data-root /path/to/data`.
+4. **Start Xilla once with the same account and environment settings.** Xilla automatically converts legacy database namespaces such as `heroku.*`, `hikka.*`, and `legacy.*` to the current `xilla.*` namespace. Existing `config-*.json` files keep their names and do not need to be renamed manually.
+5. **Allow the first startup to finish.** Legacy root-level files named `heroku-*.session` or `heroku-*.session-journal` are moved into the `sessions/` directory and renamed to the corresponding `xilla-*` names. An existing `heroku-userbot` content channel is reused and renamed to `xilla-userbot` when Telegram permissions allow it.
+6. **Verify the migration.** Confirm that the expected account is listed, modules load correctly, and the content channel and database-backed settings are available. After verification, keep the backup in a safe place before deleting the old installation.
+
+If the migration fails, stop Xilla and restore the data root and Redis snapshot from the backup. Do not delete the original Heroku files until the Xilla instance has been verified.
 
 
 ## Additional Features

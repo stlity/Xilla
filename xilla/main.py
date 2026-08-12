@@ -562,12 +562,18 @@ class Xilla:
                 entry
                 for entry in entries
                 if entry.is_file()
-                and entry.name.startswith("xilla-")
+                and entry.name.startswith(("xilla-", "heroku-"))
                 and ".session" in entry.name
             ]
 
         for entry in legacy:
-            target = os.path.join(SESSIONS_DIR, entry.name)
+            target_name = (
+                entry.name
+                if entry.name.startswith("xilla-")
+                else "xilla-" + entry.name.removeprefix("heroku-")
+            )
+            target = os.path.join(SESSIONS_DIR, target_name)
+
             if os.path.exists(target):
                 continue
 
