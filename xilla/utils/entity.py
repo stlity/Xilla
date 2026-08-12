@@ -444,11 +444,16 @@ async def asset_forum_topic(
 
 async def wait_for_content_channel(db: "Database", delay: float = 10) -> int:
     cid = db.get("xilla.forums", "channel_id", None)
+    warned = False
 
     while not cid:
-        logger.warning(
-            "Xilla content channel not found in database. Sleeping 10 seconds..."
-        )
+        if not warned:
+            logger.warning(
+                "Xilla content channel not found in database. "
+                "Waiting %.1f seconds before checking again...",
+                delay,
+            )
+            warned = True
         await asyncio.sleep(delay)
         cid = db.get("xilla.forums", "channel_id", None)
 

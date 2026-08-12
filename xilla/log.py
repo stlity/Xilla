@@ -467,7 +467,7 @@ class TelegramLogsHandler(logging.Handler):
                 except Exception:
                     logging.debug("Failed to send log message", exc_info=True)
                     break
-            if attempt > 2:
+            if attempt >= 2:
                 logging.debug(
                     "Failed to send log message after retries, skipping",
                     exc_info=True,
@@ -541,7 +541,7 @@ class TelegramLogsHandler(logging.Handler):
             try:
                 for precord in self.buffer:
                     for target in self.targets:
-                        if record.levelno >= target.level:
+                        if precord.levelno >= target.level:
                             target.handle(precord)
 
                 self.handledbuffer = (
