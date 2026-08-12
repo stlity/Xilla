@@ -1,8 +1,10 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/stlity/Xilla/master/assets/xilla.png" alt="Xilla mountain logo" width="220">
-  <h1>Xilla Userbot</h1>
-  <p>Advanced Telegram userbot with enhanced security and modern features</p>
-  
+
+  <img src="https://raw.githubusercontent.com/stlity/Xilla/master/assets/xilla.png" alt="Xilla mountain logo" width="180">
+  <h1>Xilla</h1>
+  <p><strong>A modular Telegram userbot with a calm, mountain-inspired command center.</strong></p>
+  <p>Self-hosted · Extensible · Built for deliberate control</p>
+
   <p>
     <a href="#">
       <img src="https://img.shields.io/github/languages/code-size/stlity/Xilla" alt="Code Size">
@@ -37,27 +39,26 @@
   
 </div>
 
-### Manual Installation (VPS/VDS Server)
+> **Xilla** is a self-hosted Telegram userbot that combines modular automation with a focused control surface. The project is designed for users who prefer to run their own instance, keep their configuration close, and extend functionality deliberately.
 
----
+| Start here | What you will find |
+|---|---|
+| **New installation** | Setup commands for VPS, WSL and UserLAnd |
+| **Existing Heroku installation** | A documented migration path that preserves data and sessions |
+| **Daily use** | The `.help` command for discoverability and `.cfg` for interactive configuration |
 
-## ⚠️ Security Notice
+## Security first
 
-> **Important Security Advisory**  
-> While Xilla implements extended security measures, installing modules from untrusted developers may still cause damage to your server/account.
-> 
-> **Recommendations:**
-> - ✅ Download modules exclusively from official repositories or trusted developers
-> - ❌ Do NOT install modules if unsure about their safety
-> - ⚠️ Exercise caution with unknown commands (`.terminal`, `.eval`, `.ecpp`, etc.)
+> **Treat third-party modules as executable code.** Install modules only from authors and repositories you trust, review unfamiliar commands before running them, and keep your session files private. Commands such as `.terminal`, `.eval` and `.ecpp` can affect the host system and should be used with particular care.
 
----
+## Installation
 
-## 🚀 Installation
+### VPS / VDS
 
-### VPS/VDS
-> **Note for VPS/VDS Users:**  
-> Add `--root` for root users (to avoid entering force_insecure)
+> **Running as root:** add `--root` to the start command to avoid the interactive `force_insecure` prompt.
+
+Choose the operating system that matches your server, then run the complete command block in a terminal.
+
 <details> <summary><b>Ubuntu / Debian</b></summary>
 
   ```bash
@@ -101,7 +102,8 @@ python3 -m xilla
 
 
 
-### Other
+### Other environments
+
 <details>
   <summary><b>WSL(Windows)</b></summary>
 
@@ -146,17 +148,17 @@ python3 -m xilla
 > **Voila! You have installed Xilla on UserLAnd.**
 </details>
 
-### Hosting
+### Hosting model
 
-Xilla is designed for self-hosted deployment. Use the installation instructions above on your preferred VPS, VDS, container host, or local environment.
+Xilla is designed for **self-hosted deployment**. Run it on a VPS, VDS, container host or local Linux environment where you control the data directory, session files and environment variables.
 
-## 🔄 Migrating from Heroku to Xilla
+## Migrating from Heroku to Xilla
 
-Xilla includes a compatibility migration for existing Heroku installations. The migration runs automatically when Xilla starts and preserves the existing JSON or Redis-backed database data.
+Xilla includes a compatibility migration for existing Heroku installations. It runs automatically during startup and preserves existing JSON- or Redis-backed data where the same data root and settings are supplied.
 
 > **Important:** Stop the old Heroku instance before starting Xilla. Do not run both instances against the same session files or `REDIS_URL` at the same time.
 
-### Recommended migration procedure
+### Migration checklist
 
 1. **Stop Heroku and create a backup.** Back up the entire Heroku data root, including `config.json`, every `config-*.json` file, `*.session` and `*.session-journal` files, the `sessions/` and `loaded_modules/` directories, and `api_token.txt` if it exists. If the installation uses Redis, also create a backup of the Redis database or snapshot used by `REDIS_URL`.
 2. **Install Xilla** using the instructions above. Keep the backup until you have confirmed that the new instance starts and the account data is available.
@@ -168,7 +170,7 @@ Xilla includes a compatibility migration for existing Heroku installations. The 
 If the migration fails, stop Xilla and restore the data root and Redis snapshot from the backup. Do not delete the original Heroku files until the Xilla instance has been verified.
 
 
-## Additional Features
+## Highlights
 
 <details>
   <summary><b>🔒 Automatic Database Backuper</b></summary>
@@ -183,43 +185,43 @@ If the migration fails, stop Xilla and restore the data root and Redis snapshot 
 
 ---
 
-## ✨ Key Features & Improvements
+## Capabilities
 
-| Feature | Description |
-|---------|-------------|
-| 🆕 **Latest Telegram Layer** | Support for forums and newest Telegram features |
-| 🔒 **Enhanced Security** | Native entity caching and targeted security rules |
-| 🎨 **UI/UX Improvements** | Modern interface and user experience |
-| 📦 **Core Modules** | Improved and new core functionality |
-| ⏱ **Rapid Bug Fixes** | Faster resolution than FTG/GeekTG |
-| 🔄 **Backward Compatibility** | Works with FTG, GeekTG and Hikka modules |
-| ▶️ **Inline Elements** | Forms, galleries and lists support |
+| Area | What Xilla provides |
+|---|---|
+| **Telegram compatibility** | Support for current Telegram features, including forums |
+| **Control surface** | A redesigned `.help` for discovering modules and `.cfg` for interactive configuration |
+| **Modularity** | Core modules plus externally loaded modules and libraries |
+| **Continuity** | Compatibility paths for existing Heroku, FTG, GeekTG and Hikka module ecosystems |
+| **Inline interactions** | Forms, galleries and lists for richer module flows |
+| **Self-hosting** | A deployment model that keeps configuration and sessions under your control |
 
 ---
 
-## 📋 Requirements
+## Requirements
 
 - **Python 3.10+**
 - **API Credentials** from [Telegram Apps](https://my.telegram.org/apps)
 
 ---
 
-## 📚 Documentation
+## Documentation
 
-| Type | Link |
-|------|------|
-| **User Documentation** | [Project README](https://github.com/stlity/Xilla#readme) |
-| **Developer Docs** | [Source code and issues](https://github.com/stlity/Xilla) |
-
----
-
-## 💬 Support
-
-[![Project Support](https://img.shields.io/badge/GitHub-Issues-181717?logo=github)](https://github.com/stlity/Xilla/issues)
+| Resource | Use it for |
+|---|---|
+| [Installation instructions](#installation) | Starting a new Xilla instance |
+| [Migration checklist](#migrating-from-heroku-to-xilla) | Moving an existing Heroku installation to Xilla |
+| [Project source and issues](https://github.com/stlity/Xilla) | Reviewing code, reporting issues and contributing |
 
 ---
 
-## ⚠️ Usage Disclaimer
+## Support
+
+Use [GitHub Issues](https://github.com/stlity/Xilla/issues) to report reproducible problems or suggest improvements. Include the Xilla version, environment, safe-to-share logs and the steps needed to reproduce the issue.
+
+---
+
+## Usage notice
 
 > This project is provided as-is. The developer takes **NO responsibility** for:
 > - Account bans or restrictions
@@ -234,7 +236,7 @@ If the migration fails, stop Xilla and restore the data root and Redis snapshot 
 
 ---
 
-## 🙏 Acknowledgements
+## Acknowledgements
 
 - [**Hikari**](https://gitlab.com/hikariatama) for Hikka (project foundation)
 - [**Lonami**](https://t.me/lonami) for Telethon (Heroku-TL backbone)

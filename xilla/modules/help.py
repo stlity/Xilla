@@ -178,17 +178,15 @@ class Help(loader.Module):
             else utils.escape_html(name)
         )
 
-        reply = "{} <b>{}</b>:".format(
-            "<tg-emoji emoji-id=5134452506935427991>🏔️</tg-emoji>",
-            _name,
-        )
+        reply = self.strings["module_header"].format(_name)
+
         inline_cmd = ""
         cmds = ""
         if module.__doc__:
             reply += (
-                "\n<i><tg-emoji emoji-id=5879813604068298387>ℹ️</tg-emoji> "
+                "\n<blockquote>ℹ️ "
                 + utils.escape_html(inspect.getdoc(module))
-                + "\n</i>"
+                + "</blockquote>"
             )
 
         if isinstance(self.lookup(args), loader.Library):
@@ -216,31 +214,32 @@ class Help(loader.Module):
 
         lines = []
         for name, fun in commands.items():
+            aliases = self.find_aliases(name)
+            alias_text = (
+                "\n<i>{}:</i> ".format(self.strings["aliases_title"])
+                + " · ".join(
+                    "<code>{}{}</code>".format(
+                        utils.escape_html(self.get_prefix()), alias
+                    )
+                    for alias in aliases
+                )
+                if aliases
+                else ""
+            )
             lines.append(
-                f'{self.config["command_emoji"]}'
-                " <code>{}{}</code>{} {}".format(
+                f'{self.config["command_emoji"]} '
+                "<code>{}{}</code>\n<i>{}</i>{}".format(
                     utils.escape_html(self.get_prefix()),
                     name,
-                    (
-                        " ({})".format(
-                            ", ".join(
-                                "<code>{}{}</code>".format(
-                                    utils.escape_html(self.get_prefix()),
-                                    alias,
-                                )
-                                for alias in self.find_aliases(name)
-                            )
-                        )
-                        if self.find_aliases(name)
-                        else ""
-                    ),
                     (
                         utils.escape_html(inspect.getdoc(fun))
                         if fun.__doc__
                         else self.strings["undoc"]
                     ),
+                    alias_text,
                 )
             )
+
         cmds = "\n".join(lines)
         developer = re.search(
             r"# ?meta developer: ?(.+)", getattr(module, "__source__", None)
@@ -266,7 +265,8 @@ class Help(loader.Module):
 
         await utils.answer(
             message,
-            f"{reply}<blockquote expandable>{cmds}{inline_cmd}</blockquote>"
+            f"{reply}\n\n{self.strings['commands_title']}<blockquote expandable>{cmds}{inline_cmd}</blockquote>"
+
             + (
                 f"<blockquote expandable>\n{placeholders}</blockquote>"
                 if placeholders
@@ -375,9 +375,11 @@ class Help(loader.Module):
 
             core = mod.__origin__.startswith("<core")
 
-            tmp += "\n{} <code>{}</code>".format(
-                self.config["core_emoji"] if core else self.config["plain_emoji"], name
+            tmp += "\n{} <b>{}</b>".format(
+                self.config["core_emoji"] if core else self.config["plain_emoji"],
+                utils.escape_html(name),
             )
+
             first = True
 
             commands = [
@@ -387,11 +389,14 @@ class Help(loader.Module):
             ]
 
             for cmd in commands:
+                label = "<code>{}{}</code>".format(
+                    utils.escape_html(self.get_prefix()), utils.escape_html(cmd)
+                )
                 if first:
-                    tmp += f": ( {cmd}"
+                    tmp += f"\n    {label}"
                     first = False
                 else:
-                    tmp += f" | {cmd}"
+                    tmp += f"  {label}"
 
             icommands = []
 
@@ -419,21 +424,26 @@ class Help(loader.Module):
                 ]
 
             for cmd in icommands:
+                label = "<code>@{} {}</code>".format(
+                    utils.escape_html(self.inline.bot_username), utils.escape_html(cmd)
+                )
                 if first:
-                    tmp += f": ( 🤖 {cmd}"
+                    tmp += f"\n    {label}"
                     first = False
                 else:
-                    tmp += f" | 🤖 {cmd}"
+                    tmp += f"  {label}"
 
             for placeholder in placeholders:
+                label = "<code>{}</code>".format(utils.escape_html("{" + placeholder + "}"))
                 if first:
-                    tmp += f": ( {{{placeholder}}}"
+                    tmp += f"\n    {label}"
                     first = False
                 else:
-                    tmp += f" | {{{placeholder}}}"
+                    tmp += f"  {label}"
 
             if commands or icommands or placeholders:
-                tmp += " )"
+                tmp += "\n"
+
                 if core:
                     core_ += [tmp]
                 else:
