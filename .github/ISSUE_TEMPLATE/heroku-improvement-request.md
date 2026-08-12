@@ -1,12 +1,12 @@
 ---
-name: Heroku improvement request
-about: Suggest an idea for Heroku userbot itself
+name: Xilla improvement request
+about: Suggest an idea for Xilla userbot itself
 title: ""
-labels: enhancement, Heroku
+labels: enhancement, Xilla
 assignees: ""
 ---
 
-- [x] My suggestion **is related to Heroku userbot itself**. It's not about illegal stuff, doesn't violate Telegram EULA and human rights and **is not related to modules**.
+- [x] My suggestion **is related to Xilla userbot itself**. It's not about illegal stuff, doesn't violate Telegram EULA and human rights and **is not related to modules**.
 
 ---
 

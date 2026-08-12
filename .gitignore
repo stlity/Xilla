@@ -134,11 +134,11 @@ dmypy.json
 
 *__pycache__
 *.pyc
-heroku/api_token.py
-heroku/loaded_modules
+xilla/api_token.py
+xilla/loaded_modules
 loaded_modules
-heroku/debug_modules
-heroku*.session*
+xilla/debug_modules
+xilla*.session*
 sessions
 database-*.json
 *.swp
@@ -166,12 +166,12 @@ config.json
 *.mp3
 *.avi
 
-# Heroku-specific rules
-.heroku/
+# Xilla-specific rules
+.xilla/
 .apt/
 .profile.d/
 vendor/
 Pipfile.lock
 
-heroku.log.*
+xilla.log.*
 unknown_errors.txt
